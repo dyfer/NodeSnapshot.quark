@@ -198,7 +198,11 @@ TraceParser {
 					lastControl = name;
 					snapshot.controls[name] = val;
 				} {
-					snapshot.controls[lastControl] = snapshot.controls[lastControl].asArray.add(val);
+					if(lastControl.notNil, { //fix for situation when server responds with control indicies only, and not the argument names
+						snapshot.controls[lastControl] = snapshot.controls[lastControl].asArray.add(val);
+					}, {
+						snapshot.controls[name] = val;
+					})
 				};
 			}
 		}
